@@ -1,0 +1,50 @@
+
+/* 修正: ヘッダーの中央揃えと最大幅設定 */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* ヘッダーのスタイル */
+header {
+  width: 100%;
+  max-width: 1000px; /* 最大幅を設定 */
+  position: fixed;
+  top: 0;
+  left: 50%; /* 中央揃えの基準位置 */
+  transform: translateX(-50%); /* 中央に配置 */
+  background-color: #041292;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+/* メインコンテンツの中央揃え */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 70px; /* ヘッダーの高さ分余白を確保 */
+  width: 100%;
+}
+
+/* コンテナのスタイル */
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px; /* 任意の最大幅を指定 */
+}
+
+@media (max-width: 600px) {
+  body {
+    align-items: flex-start; /* 小画面では左揃えに戻す */
+  }
+
+  header {
+    max-width: 100%; /* 小画面では幅を画面全体に */
+    left: 0; /* 左端に配置 */
+    transform: none; /* 中央揃えを解除 */
+  }
+}

@@ -1,0 +1,779 @@
+
+/* ベースのスタイル */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  padding-top: 70px;
+  max-width:1000px;
+
+}
+
+/* ヘッダーのベーススタイル */
+header {
+  background-color: #041292; /* ダークカラーの背景 */
+  padding: 2px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+  position: fixed; /* 左上に固定 */
+  width: 100%;
+  top: 0;
+  max-width:1000px;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* ロゴとメニューの間隔を調整 */
+  padding: 0px;
+}
+
+header nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  flex-wrap: nowrap; /* メニューを1行に固定 */
+  white-space: nowrap; /* テキストの折り返しを防止 */
+  margin-right:60px;
+  margin-left:0px;
+}
+
+header nav ul li {
+  padding:5px;
+  position: relative;
+  flex-shrink: 0; /* アイテムが縮小されないようにする */
+}
+
+header nav ul li a {
+  color: #ffffff;
+  font-size: 1rem;
+  text-decoration: none; /* テキストに下線や取り消し線を追加する */
+  font-family: 'Montserrat', sans-serif; /* モダンなフォント */
+  padding: 6px 12px;
+  transition: color 0.3s ease, background 0.3s ease;
+  border-radius: 5px;
+}
+/* ホバー効果 */
+header nav ul li a:hover {
+  background-color: #ff6b6b; /* マウスをかざしたときの動作 */
+  color: #ffffff;
+}
+
+.header-logo {
+  max-height: 60px; /* ロゴの高さを調整 */
+  margin-right: 0px;
+  
+}
+
+
+
+
+/* ドロップダウンメニューのスタイル */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: linear-gradient(-20deg, #d558c8 0%, #041292 100%); /* ドロップダウン背景色 */
+  color: #fff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8); /* 影を追加 */
+  width: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.dropdown-content a {
+  color: #f1f1f1;
+  padding: 12px 20px;
+  text-decoration: none;
+  display: block; /* ブロック要素 */
+  font-size: 1rem;
+  transition: background 0.3s ease, padding-left 0.3s ease;
+  font-family: 'Roboto', sans-serif; /* 柔らかい印象のフォント */
+}
+
+.dropdown-content a:hover {
+  background-color: #0a98c4e5; /* ダークグレーのホバー背景 */
+  /* color: #f1c15a; ホバー時にサーモンピンク */
+  padding-left: 3vw; /* ホバー時に少し左にインデント */
+  text-decoration:underline;
+  font-weight:bold;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  animation: dropdownFadeIn 0.3s ease;
+}
+
+
+/* Heroセクション */
+#hero {
+  overflow: hidden;
+  position: relative;
+  background: #333;
+  color: white;
+  padding: 1rem 1rem;
+  text-align: center;
+  white-space: nowrap; /* テキストの折り返しを防止 */
+  height: 110px; /* 「質実剛健」欄を高さ110pxに設定 */
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 0;/* 背景画像の上端を0に設定 */
+  left: 0;
+  width:100%;
+  height:100%;
+  background-image: url('../img/header_banner/header_btm.jpg'); /* 背景画像を指定 */
+  background-size: 100% 100%; /* 横幅・縦幅を100%に固定 */
+  background-repeat: no-repeat; /* 繰り返しを防止 */
+  background-position: center; /* 中央揃え */
+  opacity: 0;
+  transform: translateY(0); /* 垂直方向のズレをリセット */
+  transform: scale(0.8); /* 初期状態で縮小 */
+  animation: zoomIn 1s forwards; /* ズームインアニメーション */
+}
+
+#hero h1, #hero p, #modalBtn {
+  position: relative;
+  font-size:1rem;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out 1s forwards; /* 表示タイミングを遅延 */
+}
+
+#modalBtn {
+  padding: 3px 8px;
+  font-size: 1rem;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+/* モーダルウィンドウ */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* 背景のスクロールを防止 */
+  z-index: 100; /* 他の要素の上に表示 */
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  width: 80%;
+  max-height: 80vh; /* モーダルの高さを画面の80%に制限 */
+  overflow-y: auto; /* モーダル内で縦スクロールを許可 */
+  position: relative;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.modal-slide-in .modal-content {
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.modal-slide-in.show .modal-content {
+  transform: translateX(0);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+/* フォームの設定 */
+#attendanceForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#attendanceForm label {
+  margin-top: 10px;
+}
+
+#attendanceForm input,
+#attendanceForm select,
+#attendanceForm textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#attendanceForm button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#attendanceForm button:hover {
+  background-color: #e55a5a;
+}
+
+/* スライドショーのスタイル */
+#slideshow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+  width: 80%;
+  max-width: 800px;
+  position: relative;
+}
+
+#slide-image-container {
+  display: flex;
+  align-items: center; /* 子要素を中央揃え */
+  justify-content: center; /* 横方向の調整（念のため） */
+  position: relative;
+  height: 50vh; /* 必要な高さを設定 */
+}
+
+#slide-image {
+  display: block;
+  max-height: 100%; /* 高さを親要素にフィットさせる */
+  width: auto;/* 縦横比を維持 */
+}
+
+#slide-image-container img {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* #slide-image-container img:hover {
+  transform: scale(1.1);
+} */
+
+#prevBtn,
+#nextBtn {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 24px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+}
+
+#prevBtn {
+  left: 10px;
+}
+
+#nextBtn {
+  right: 10px;
+}
+
+/* インジケーターのスタイル */
+#slide-indicator {
+  display: flex;
+  justify-content:flex-end ; /* インジケータを右揃え */
+  position: absolute; /* 画像内での絶対配置 */
+  bottom: 5px; /* 画像の下部に配置 */
+  right: 5px; /* 右端からの距離 */
+  transform: translateX(-50%); /* 左端基準を中央基準に調整 */
+  background-color: rgba(0, 0, 0, 0.5); /* 背景色を半透明に設定 */
+  padding: 5px 10px;
+  border-radius: 5px;
+  z-index: 10; /* 他の要素の上に表示 */
+}
+
+.indicator {
+  width: 10px; /* 長方形の横幅 */
+  height: 5px; /* 長方形の高さ */
+  background-color: #ddd;
+  border-radius: 2px; /* 角を少し丸める */
+  margin: 0 3px;
+  cursor: pointer;
+}
+
+.indicator.active {
+  background-color: red; /* アクティブなインジケータを赤色に */
+}
+
+/* 新着情報 */
+#news {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+#news h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+#news-container {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.news-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+
+/*
+コンテンツ
+-------------------------------------------------------------------*/
+
+
+#contents p{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-right: 30px;
+	margin-left: 30px;
+	line-height: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#contents h2 {
+	background-color:#1B4EA5; 
+	width: 550px; height:22px; color:#FFF;
+	font-size: 14px; text-indent: 2em; line-height: 22px;
+	letter-spacing: 5px;
+	margin-top: 0px;
+	margin-bottom: 6px;
+	margin-right: 10px;
+	margin-left: 5px;
+}	
+#contents h2#link a:hover{
+	color: #00CCCC;
+}
+
+#contents h3 {
+	font-size: 14px;
+	border-left-width: 5px;
+	border-left-style: solid;
+	border-left-color: #296927;
+	padding-left: 10px;
+	color: #296927;
+	line-height: 16px;
+	margin-top: 10px;
+	margin-bottom: 7px;
+	margin-left: 13px;
+}
+
+#contents h3 a:hover {
+	font-size: 14px;
+	color: #33CCCC;	
+}
+
+#contents h4 {
+	font-size: 12px;
+	color: #445582;
+	line-height: 16px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	margin-left: 25px;
+}
+
+#contents h4.dousoukai {
+	font-size: 14px;
+	color: #445582;
+	line-height: 16px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	margin-left: 25px;
+}
+
+#contents h5 {
+	font-size: 12px;
+	color: #666699;
+	line-height: 16px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	margin-left: 35px;
+}
+
+#contents ul {
+	margin-left: 30px;
+	list-style-type: none;
+}
+#contents li a {
+	font-size: small;
+}
+
+/*コンテンツ---メイン-------------*/
+
+#contents #main {
+
+	border-top: #1B4EA5 solid 3px;
+	border-bottom: #1B4EA5 solid 3px;	
+}
+#contents #main a {
+	line-height: 20px;
+}
+#contents #main a:hover {
+	color: #00CCCC;
+}
+#contents #main p {
+	font-size: small;
+	line-height: 2em;
+}
+
+
+/* フッター */
+.footer-bottom1{
+  text-align: center;
+  background-color:#4fa5ba7e;
+  padding: 5px;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  flex-shrink: 0; /* 高さを固定 */
+  white-space: nowrap; /* テキストの改行を防止 */
+  overflow: hidden; /* 長すぎるテキストを隠す */
+}
+
+.footer-bottom2 {
+	font-style: normal;
+	color: #FFFFFF;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: block;
+	background-color: #041292;
+	font-size: 12px;
+	font-family: Verdana, Arial, sans-serif;
+  flex-shrink: 0; /* 高さを固定 */
+  white-space: nowrap; /* テキストの改行を防止 */
+  overflow: hidden; /* 長すぎるテキストを隠す */
+}
+
+/* スマートフォンでの表示 */
+@media (max-width: 600px) {
+  html{
+   font-size:0.9rem; 
+  }
+  body {
+    margin: 0; /* 全体の余白をなくす */
+    padding: 0; /* パディングも削除 */
+    overflow-x: hidden; /* 横スクロールを防止 */
+    transition: margin-left 0.3s ease-in-out;
+  }
+  body.menu-active {
+    margin-left: 155px; /* ヘッダー分だけbodyを右に移動 */
+    width: calc(100vw - 155px); /* 残り領域を調整 */
+    transition: margin-left 0.3s ease-in-out;
+  }
+  main {
+    /* margin-left: 150px; */
+    flex: 1; /* メインコンテンツが残りのスペースを使用 */
+    overflow-y: auto; /* 縦スクロールを有効化 */
+    padding: 0px; /* コンテンツに余白を追加 */
+    background-color: #f9f9f9; /* 背景色を設定 */
+  }
+  
+  /* footer { */
+    /* width: 100%; フッターを横幅全体に */
+    /* height: 70px; 固定の高さ */
+    /* background-color: #041292; フッターの背景色 */
+    /* color: white; */
+    /* text-align: center; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content:space-around ; */
+    /* bottom:0px; */
+    /* position: absolute; フッターを下部に固定 */
+    /* z-index: 1001; */
+  /* } */
+
+
+  header {
+    position: fixed;
+    top: 0;
+    left: -160px; /* 初期状態で非表示 */
+    width: 155px;
+    height: 100%;
+    background-color: #041292;
+    color: white;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out; /* スライドアニメーション */
+  }
+  
+  header.active {
+    transform: translateX(160px); /* スライドインの設定 */
+  }
+  .header-logo {
+    position: absolute; /* ロゴの位置を自由に制御 */
+    left: 27.5px; /* 左端から60pxの位置 */
+    width: 220px; /* 幅を95pxに縮小 */
+    height: auto; /* 高さは画像のアスペクト比に基づく */
+    max-width: 185px; /* 縮小を厳密に指定 */
+  }
+  .header-size {
+    max-width:100%;
+    height:100px;
+    vertical-align:bottom;
+  }
+  .header-position {
+    margin-left:60px;
+    max-width:calc(100vw-60px);
+  }
+
+  /* ハンバーガーボタン */
+.btn {
+  position: fixed;
+  top:0;
+  left:0;
+  width:60px;
+  height:60px;
+  background-color: #041292;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.btn i {
+  position:absolute;
+  top:20px;
+  left:10px;
+  width:40px;
+  height:2px;
+  background-color:#fff;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.btn i:nth-of-type(1){
+  top:20px;
+}
+.btn i:nth-of-type(2){
+  top:30px;
+}
+.btn i:nth-of-type(3){
+  top:40px;
+}
+.btn.active i:nth-of-type(1){
+  transform:translateY(10px) rotate(45deg);
+}
+.btn.active  i:nth-of-type(2){
+  opacity:0;
+}
+.btn.active  i:nth-of-type(3){
+  transform:translateY(-10px) rotate(-45deg);
+}
+
+
+  .header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .header-logo {
+    transform: scale(0.7); /* サイズを80%に縮小 */
+    transform-origin: center left; /* 縮小基準を左側に設定 */
+    margin-left: 0; /* 左寄せにする */
+    padding: 0; /* 余白を削除 */
+    display: block; /* 左寄せを確実に適用 */
+  }
+
+  header nav ul li {
+      margin: 0;
+      text-align: center;
+  }
+  header nav ul li .dropdown-content {
+    display: block; /* active時に表示 */
+    position: relative;
+    background-color: #041292; /* ドロップダウン背景色 */
+    padding: 10px;
+  }
+  header nav ul {
+    display: none; /* デフォルトでは非表示 */
+    flex-direction: column;
+    background-color: #041292;
+    position: absolute;
+    top: 60px; /* ボタンの下に表示 */
+    left: 0;
+    width: 100%;
+    z-index: 999;
+  }
+
+  header.active nav ul {
+    display: flex; /* ボタンがactive状態で表示 */
+  }
+
+  header nav ul li a {
+    padding: 3px 8px;
+    color: white;
+    text-align: center;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-content {
+    display: none; /* デフォルトで非表示 */
+    position: relative;
+    top:0px; /* ヘッダーの上端に揃える */
+    left: 155px; /* 左端から155pxに配置 */
+    background: linear-gradient(-20deg, #d558c8 0%, #041292 100%);
+    color: #fff;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8);
+    width: 170px;
+    border-radius: 8px;
+    overflow: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10000;
+  }
+  .dropdown-content a {
+    padding: 3px 5px;
+    text-decoration: none;
+  }
+    .dropdown:hover .dropdown-content,
+  .dropdown-content:hover {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* ホバーエリアの拡張 */
+  .dropdown:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%; /* 親要素の右端 */
+    width: 220px; /* ギャップを埋める幅 */
+    height: 100%; /* 高さを合わせる */
+    z-index: 999; /* メニューよりも背面に設定 */
+  }  
+  .dropdown.open {
+    display: block;
+  }
+
+  #modalBtn {
+    margin-top: 30px;
+  }
+  #slide-image-container {
+    height: 30vh; /* 必要な高さを設定 */
+  }
+  #slide-indicator {
+    right: 10px; /* 小さな画面では固定値を使用 */
+    bottom: 10px; /* 画像内の適切な下位置を確保 */
+    transform: none; /* 中央基準の調整を解除 */
+    justify-content: flex-end; /* 右寄りに配置 */
+    width: auto; /* 必要な幅に調整 */
+    padding: 5px; /* コンパクトな余白 */
+  }
+  .modal-content {
+    width: 100%;
+    max-width: none; /* モーダルの最大幅制限を解除 */
+  }
+  #attendanceForm {
+    width: 100%; /* フォーム全体をモーダルにフィットさせる */
+    padding: 10px; /* 余白を適度に確保 */
+  }
+  #attendanceForm input,
+  #attendanceForm select,
+  #attendanceForm textarea {
+    width: 100%; /* 入力フィールドの幅をモーダルいっぱいに広げる */
+  }
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  #hero h1, #hero p{
+    display:none;
+    color:#ffffff00;
+  }
+  #hero {
+    height: 60px; /* #heroの高さを60pxに固定 */
+    padding: 0; /* 内側の余白を削除 */
+  }
+
+  #hero::before {
+    height: 60px; /* 背景画像の高さを60pxに */
+    background-size: 100% 60px; /* 背景サイズを調整 */
+    left:50px;
+  }
+
+  #modalBtn {
+    font-size: 0.9rem; /* ボタンの文字サイズを小さく */
+    padding: 2px 2px; /* ボタンの余白を減らす */
+    margin: 0; /* 余白を削除 */
+    position: absolute;
+    top: 30%; 
+    right: calc((100%-30px)/2); 
+  }
+  
+}  
+
+  
+
+
+/* フェードインアニメーション */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8); /* 初期状態を縮小 */
+    opacity: 0; /* 初期状態で透明 */
+  }
+  to {
+    transform: scale(1); /* 通常サイズへ */
+    opacity: 1; /* 完全に表示 */
+  }
+}
+
+@keyframes fadeInOpacity {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
